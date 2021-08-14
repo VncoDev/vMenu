@@ -27,7 +27,6 @@ public abstract class Menu {
     private MenuType menuType;
 
     private boolean fillEnabled;
-    private boolean cancelFillClick;
     private ItemStack fillItemStack;
 
     private Filling filling;
@@ -53,7 +52,6 @@ public abstract class Menu {
         }
 
         this.fillEnabled = false;
-        this.cancelFillClick = true;
         this.fillItemStack = null;
 
         this.fillingType = null;

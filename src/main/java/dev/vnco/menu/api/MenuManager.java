@@ -23,7 +23,7 @@ public class MenuManager {
     }
 
     public void addPlayerToCache(Player player, Menu menu){
-        if (this.menuCache.containsKey(player.getUniqueId())){
+        if (this.contains(player)){
             return;
         }
 
@@ -31,7 +31,7 @@ public class MenuManager {
     }
 
     public void removePlayerFromCache(Player player, Menu menu){
-        if (!this.menuCache.containsKey(player.getUniqueId())){
+        if (!this.contains(player)){
             return;
         }
 
