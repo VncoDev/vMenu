@@ -1,0 +1,9 @@
+author: OldVnco
+name: vMenu
+main: dev.vnco.menu.examples.ExampleJavaPlugin
+version: ${project.version}
+description: MenuAPI | By Vnco#6666
+
+commands:
+  example:
+    description: "Command for open example menu"
