@@ -2,7 +2,7 @@ package dev.vnco.menu.examples.menu;
 
 import dev.vnco.menu.api.Menu;
 import dev.vnco.menu.api.button.Button;
-import dev.vnco.menu.api.filling.FillingType;
+import dev.vnco.menu.api.type.FillType;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -12,13 +12,19 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Example Menu
+ */
+
 public class ExampleMenu extends Menu {
 
     public ExampleMenu() {
         super("&c&lExample Menu", 3);
 
+        this.setAutoUpdate(true);
+
         this.setFillEnabled(true);
-        this.setFillingType(FillingType.BORDERS);
+        this.setFillType(FillType.BORDERS);
         this.setFillItemStack(this.getFillingItemStack());
     }
 
@@ -30,7 +36,7 @@ public class ExampleMenu extends Menu {
         player.playSound(player.getLocation(), Sound.CHEST_CLOSE, 5.0f, 5.0f);
     }
 
-    @Override public Set<Button> getButtons() {
+    @Override public Set<Button> getButtons(Player player) {
         Set<Button> buttons = new HashSet<>();
 
         buttons.add(new ExampleButton());

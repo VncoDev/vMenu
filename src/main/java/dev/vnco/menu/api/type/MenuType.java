@@ -55,6 +55,12 @@ public enum MenuType {
 
     };
 
+    /**
+     * Abstract method which will be created with the indicated menu type.
+     *
+     * @param menu - The menu to which the type will be set
+     */
+
     public abstract Inventory createMenu(Menu menu);
 
 }

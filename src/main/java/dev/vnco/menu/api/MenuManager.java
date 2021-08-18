@@ -1,9 +1,12 @@
 package dev.vnco.menu.api;
 
+import dev.vnco.menu.api.listener.MenuListener;
 import dev.vnco.menu.examples.ExampleJavaPlugin;
+import dev.vnco.menu.utils.Tasks;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,33 +17,48 @@ public class MenuManager {
 
     private final ExampleJavaPlugin plugin;
     private final Map<UUID, Menu> menuCache;
+    private BukkitTask task;
 
     public MenuManager(ExampleJavaPlugin plugin){
         this.plugin = plugin;
         this.menuCache = new HashMap<>();
 
-        Bukkit.getPluginManager().registerEvents(new MenuListener(plugin), plugin);
+        Bukkit.getPluginManager().registerEvents(new MenuListener(this), plugin);
     }
 
-    public void addPlayerToCache(Player player, Menu menu){
+    public void addPlayerToMenu(Player player, Menu menu){
         if (this.contains(player)){
             return;
         }
 
+        menu.addPlayer(player);
+
         this.menuCache.put(player.getUniqueId(), menu);
+
+        if (menu.isAutoUpdate()){
+            this.task = Tasks.asyncTimer(() -> menu.openMenu(player), 0L, 20L);
+        }
     }
 
-    public void removePlayerFromCache(Player player, Menu menu){
+    public void removePlayerFromMenu(Player player, Menu menu){
         if (!this.contains(player)){
             return;
         }
 
-        this.menuCache.remove(player.getUniqueId(), menu);
+        menu.removePlayer(player);
+
+        this.menuCache.remove(player.getUniqueId());
+
+        if (menu.isAutoUpdate()){
+            if (this.task != null){
+                this.task.cancel();
+            }
+        }
     }
 
     public Menu getMenuByPlayer(Player player){
         for (Menu menu : this.menuCache.values()){
-            if (player.getOpenInventory().getTopInventory().equals(menu.getInventory())){
+            if (menu.contains(player)){
                 return menu;
             }
         }
