@@ -9,12 +9,10 @@ import org.bukkit.inventory.ItemStack;
 @Getter @Setter
 public abstract class Button {
 
-    private ItemStack itemStack;
     private int slot;
     private boolean cancelClick;
 
     public Button(int slot, boolean cancelClick){
-        this.itemStack = this.getButtonItem();
         this.slot = slot - 1;
         this.cancelClick = cancelClick;
     }

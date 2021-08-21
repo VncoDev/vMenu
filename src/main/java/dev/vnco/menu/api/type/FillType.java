@@ -1,16 +1,19 @@
 package dev.vnco.menu.api.type;
 
 import dev.vnco.menu.api.Menu;
+import org.bukkit.inventory.Inventory;
 
 public enum FillType {
 
     BORDERS {
 
         @Override public void applyFill(Menu menu) {
-
+            Inventory inventory = menu.getInventory();
             for (int i = 0; i < menu.getSize(); i++) {
                 if (i < 9 || i >= menu.getSize() - 9 || i % 9 == 0 || i % 9 == 8) {
-                    menu.getInventory().setItem(i, menu.getFillItemStack());
+                    if (inventory.getItem(i) == null) {
+                        inventory.setItem(i, menu.getFillItemStack());
+                    }
                 }
             }
         }
@@ -20,8 +23,11 @@ public enum FillType {
     ALL {
 
         @Override public void applyFill(Menu menu) {
+            Inventory inventory = menu.getInventory();
             for (int i = 0; i < menu.getSize(); i++){
-                menu.getInventory().setItem(i, menu.getFillItemStack());
+                if (inventory.getItem(i) == null) {
+                    inventory.setItem(i, menu.getFillItemStack());
+                }
             }
         }
 

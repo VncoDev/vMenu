@@ -15,6 +15,14 @@ public enum MenuType {
 
     },
 
+    DROPPER {
+
+        @Override public Inventory createMenu(Menu menu) {
+            return Bukkit.createInventory(null, InventoryType.DROPPER, menu.getTitle());
+        }
+
+    },
+
     CHEST {
 
         @Override public Inventory createMenu(Menu menu) {

@@ -24,14 +24,10 @@ public abstract class Menu {
     private int size;
     private MenuType menuType;
 
-    private boolean autoUpdate;
-
     private boolean fillEnabled;
     private ItemStack fillItemStack;
 
     private FillType fillType;
-
-    private Set<Player> players;
 
     /**
      * Builder to make a menu
@@ -59,16 +55,12 @@ public abstract class Menu {
             this.size = size * 9;
         }
 
-        this.autoUpdate = false;
-
         this.fillEnabled = false;
         this.fillItemStack = null;
 
         this.fillType = null;
 
         this.inventory = menuType.createMenu(this);
-
-        this.players = new HashSet<>();
     }
 
     /**
@@ -89,7 +81,7 @@ public abstract class Menu {
         this.menuManager.addPlayerToMenu(player, this);
 
         for (Button button : this.getButtons(player)){
-            this.inventory.setItem(button.getSlot(), button.getItemStack());
+            this.inventory.setItem(button.getSlot(), button.getButtonItem());
         }
 
         if (this.isFillEnabled()){
@@ -120,7 +112,7 @@ public abstract class Menu {
      */
 
     public void onClose(Player player){
-        this.menuManager.removePlayerFromMenu(player, this);
+        this.menuManager.removePlayerFromMenu(player);
     }
 
     /**
@@ -128,17 +120,5 @@ public abstract class Menu {
      */
 
     public abstract Set<Button> getButtons(Player player);
-
-    public boolean contains(Player player){
-        return this.players.contains(player);
-    }
-
-    public void addPlayer(Player player){
-        this.players.add(player);
-    }
-
-    public void removePlayer(Player player){
-        this.players.remove(player);
-    }
 
 }
