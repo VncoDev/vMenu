@@ -22,10 +22,13 @@ public class MenuListener implements Listener {
 
         int slot = event.getSlot();
 
-        Menu menu = this.menuManager.getMenuByPlayer(player);
+        Menu menu = this.menuManager.getMenuByUUID(player.getUniqueId());
 
         if (menu != null){
-            event.setCancelled(true);
+
+            if (this.menuManager.contains(player)) {
+                event.setCancelled(true);
+            }
 
             for (Button button : menu.getButtons(player)){
                 if (slot == button.getSlot()){
@@ -39,7 +42,7 @@ public class MenuListener implements Listener {
     @EventHandler public void onInventoryClose(InventoryCloseEvent event){
         Player player = (Player) event.getPlayer();
 
-        Menu menu = this.menuManager.getMenuByPlayer(player);
+        Menu menu = this.menuManager.getMenuByUUID(player.getUniqueId());
 
         if (menu != null){
             menu.onClose(player);

@@ -23,6 +23,13 @@ public class MenuManager {
         Bukkit.getPluginManager().registerEvents(new MenuListener(this), plugin);
     }
 
+    /**
+     * Add a player to the map menu
+     *
+     * @param player - Player | Key
+     * @param menu - Menu | Value
+     */
+
     public void addPlayerToMenu(Player player, Menu menu){
         if (this.contains(player)){
             return;
@@ -30,6 +37,12 @@ public class MenuManager {
 
         this.menuMap.put(player.getUniqueId(), menu);
     }
+
+    /**
+     * Remove a player from the map
+     *
+     * @param player - Player to remove
+     */
 
     public void removePlayerFromMenu(Player player){
         if (!this.contains(player)){
@@ -39,14 +52,27 @@ public class MenuManager {
         this.menuMap.remove(player.getUniqueId());
     }
 
-    public Menu getMenuByPlayer(Player player){
-        for (Menu menu : this.menuMap.values()){
-            if (player.getOpenInventory().getTopInventory().equals(menu.getInventory())){
-                return menu;
+    /**
+     * Get the menu of a UUID on the map
+     *
+     * @param uuid - UUID to get the menu
+     */
+
+    public Menu getMenuByUUID(UUID uuid){
+        for (Map.Entry<UUID, Menu> entry : this.menuMap.entrySet()){
+            Player player = Bukkit.getPlayer(uuid);
+            if (player.getOpenInventory().getTopInventory().equals(entry.getValue().getInventory())){
+                return entry.getValue();
             }
         }
         return null;
     }
+
+    /**
+     * Checking to see if a player is on the map
+     *
+     * @param player - Player to check
+     */
 
     public boolean contains(Player player){
         return this.menuMap.containsKey(player.getUniqueId());
