@@ -60,9 +60,10 @@ public class MenuManager {
 
     public Menu getMenuByUUID(UUID uuid){
         for (Map.Entry<UUID, Menu> entry : this.menuMap.entrySet()){
-            Player player = Bukkit.getPlayer(uuid);
-            if (player.getOpenInventory().getTopInventory().equals(entry.getValue().getInventory())){
-                return entry.getValue();
+            Menu menu = entry.getValue();
+
+            if (Bukkit.getPlayer(uuid).getOpenInventory().getTopInventory().equals(menu.getInventory())){
+                return menu;
             }
         }
         return null;
