@@ -6,6 +6,7 @@ import dev.vnco.menu.utils.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -19,20 +20,24 @@ import java.util.List;
 public class ExampleButton extends Button {
 
     public ExampleButton() {
-        super(14, true);
+        super(14);
     }
 
-    @Override public void onClick(Player player, ClickType clickType) {
-        if (clickType.isLeftClick()) {
-            Color.toPlayer(player, "&a&lHello friend!");
+    @Override public void onClick(InventoryClickEvent event) {
+        Player player = (Player) event.getWhoClicked();
+        ClickType clickType = event.getClick();
+
+        if (clickType.isLeftClick()){
+            Color.toPlayer(player, "Ping");
         } else {
-            Color.toPlayer(player, "&c&lHello enemy!");
+            Color.toPlayer(player, "Pong");
         }
+
         player.closeInventory();
     }
 
     @Override public ItemStack getButtonItem() {
-        ItemStack itemStack = new ItemStack(Material.WOOL, 1, (short) 14);
+        ItemStack itemStack = new ItemStack(Material.GLOWSTONE);
         ItemMeta itemMeta = itemStack.getItemMeta();
 
         itemMeta.setDisplayName(Color.translate("&c&lExample Button"));

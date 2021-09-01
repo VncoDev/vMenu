@@ -14,6 +14,7 @@ public class ExampleJavaPlugin extends JavaPlugin {
     @Override public void onEnable() {
         instance = this;
 
+        new ItemUtils();
         this.menuManager = new MenuManager(this);
         this.getCommand("example").setExecutor(new ExampleCommand());
 

@@ -7,9 +7,10 @@ import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+
+import java.util.function.Consumer;
 
 @AllArgsConstructor
 public class MenuListener implements Listener {
@@ -18,11 +19,8 @@ public class MenuListener implements Listener {
 
     @EventHandler public void onInventoryClick(InventoryClickEvent event){
         Player player = (Player) event.getWhoClicked();
-        ClickType click = event.getClick();
-
-        int slot = event.getSlot();
-
         Menu menu = this.menuManager.getMenuByUUID(player.getUniqueId());
+        Consumer<Button> buttonConsumer = b -> b.onClick(event);
 
         if (menu != null){
 
@@ -31,10 +29,7 @@ public class MenuListener implements Listener {
             }
 
             for (Button button : menu.getButtons(player)){
-                if (slot == button.getSlot()){
-                    event.setCancelled(button.isCancelClick());
-                    button.onClick(player, click);
-                }
+                buttonConsumer.accept(button);
             }
         }
     }

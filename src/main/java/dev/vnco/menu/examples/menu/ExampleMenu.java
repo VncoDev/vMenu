@@ -21,8 +21,6 @@ public class ExampleMenu extends Menu {
     public ExampleMenu() {
         super("&c&lExample Menu", 3);
 
-        this.setAutoUpdate(true);
-
         this.setFillEnabled(true);
         this.setFillType(FillType.BORDERS);
         this.setFillItemStack(this.getFillingItemStack());

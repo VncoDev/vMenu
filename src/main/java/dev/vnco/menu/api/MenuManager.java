@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Getter
@@ -60,10 +61,14 @@ public class MenuManager {
 
     public Menu getMenuByUUID(UUID uuid){
         for (Map.Entry<UUID, Menu> entry : this.menuMap.entrySet()){
-            Menu menu = entry.getValue();
+            Optional<Menu> optionalMenu = Optional.ofNullable(entry.getValue());
 
-            if (Bukkit.getPlayer(uuid).getOpenInventory().getTopInventory().equals(menu.getInventory())){
-                return menu;
+            if (optionalMenu.isPresent()) {
+                Menu menu = optionalMenu.get();
+
+                if (Bukkit.getPlayer(uuid).getOpenInventory().getTopInventory().equals(menu.getInventory())){
+                    return menu;
+                }
             }
         }
         return null;
