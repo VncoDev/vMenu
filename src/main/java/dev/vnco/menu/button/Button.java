@@ -1,4 +1,4 @@
-package dev.vnco.menu.api.button;
+package dev.vnco.menu.button;
 
 import lombok.Getter;
 import lombok.Setter;

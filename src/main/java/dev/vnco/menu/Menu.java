@@ -1,12 +1,11 @@
-package dev.vnco.menu.api;
+package dev.vnco.menu;
 
-import dev.vnco.menu.api.button.Button;
-import dev.vnco.menu.api.type.FillType;
-import dev.vnco.menu.api.type.MenuType;
-import dev.vnco.menu.examples.ExampleJavaPlugin;
-import dev.vnco.menu.utils.Color;
+import dev.vnco.menu.button.Button;
+import dev.vnco.menu.type.FillType;
+import dev.vnco.menu.type.MenuType;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +15,7 @@ import java.util.*;
 @Getter @Setter
 public abstract class Menu {
 
-    private MenuManager menuManager;
+    private MenuManager menuManager = MenuManager.getInstance();
 
     private Inventory inventory;
 
@@ -41,9 +40,7 @@ public abstract class Menu {
      */
 
     public Menu(String title, int size, MenuType menuType){
-        this.menuManager = ExampleJavaPlugin.getInstance().getMenuManager();
-
-        this.title = Color.translate(title);
+        this.title = ChatColor.translateAlternateColorCodes('&', title);
 
         if (this.title.length() > 32){
             this.title = null;

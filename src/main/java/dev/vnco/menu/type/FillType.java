@@ -1,6 +1,6 @@
-package dev.vnco.menu.api.type;
+package dev.vnco.menu.type;
 
-import dev.vnco.menu.api.Menu;
+import dev.vnco.menu.Menu;
 import org.bukkit.inventory.Inventory;
 
 public enum FillType {

@@ -1,8 +1,8 @@
-package dev.vnco.menu.api.listener;
+package dev.vnco.menu.listener;
 
-import dev.vnco.menu.api.Menu;
-import dev.vnco.menu.api.MenuManager;
-import dev.vnco.menu.api.button.Button;
+import dev.vnco.menu.Menu;
+import dev.vnco.menu.MenuManager;
+import dev.vnco.menu.button.Button;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,7 +29,9 @@ public class MenuListener implements Listener {
             }
 
             for (Button button : menu.getButtons(player)){
-                buttonConsumer.accept(button);
+                if (event.getSlot() == button.getSlot()) {
+                    buttonConsumer.accept(button);
+                }
             }
         }
     }
