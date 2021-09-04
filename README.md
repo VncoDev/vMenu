@@ -1,6 +1,33 @@
 # vMenu | Information
  **MenuAPI** | *[Click here](https://discord.vnco.club)*
 
+# Maven
+
+**Repository:**
+
+```xml
+
+	<repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+
+```
+
+**Dependency:**
+
+```xml
+
+	<dependency>
+	    <groupId>com.github.VncoDev</groupId>
+	    <artifactId>vMenu</artifactId>
+	    <version>142245b5b1</version>
+	</dependency>
+
+```
+
 # Important
 
 After implementing the **API** you need to register the **MenuManager** in the class that is extending the **JavaPlugin**
