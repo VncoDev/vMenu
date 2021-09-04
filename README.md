@@ -1,6 +1,22 @@
 # vMenu | Information
  **MenuAPI** | *[Click here](https://discord.vnco.club)*
 
+# Important
+
+After implementing the **API** you need to register the **MenuManager** in the class that is extending the **JavaPlugin**
+
+```java
+
+public class ExampleJavaPlugin extends JavaPlugin {
+
+    @Override public void onEnable() {
+        new MenuManager(this);
+    }
+
+}
+
+```
+
 # Example
 
 ``` java
@@ -42,4 +58,3 @@ public class ExampleMenu extends Menu {
     }
 }
 ```
-
