@@ -23,7 +23,7 @@
 	<dependency>
 	    <groupId>com.github.VncoDev</groupId>
 	    <artifactId>vMenu</artifactId>
-	    <version>142245b5b1</version>
+	    <version>b1d272d0d1</version>
 	</dependency>
 
 ```
