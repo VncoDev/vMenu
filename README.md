@@ -51,7 +51,7 @@
 ```gradle
 
 	dependencies {
-		implementation 'com.github.User:Repo:Tag'
+		implementation 'com.github.VncoDev:vMenu:8643c3852f'
 	}
 
 ```
