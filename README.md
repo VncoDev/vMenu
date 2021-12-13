@@ -88,7 +88,7 @@ public class ExampleMenu extends Menu {
 
         buttons.add(new Button(14) {
 
-        @Override
+            @Override
 	    public void onClick(InventoryClickEvent event) {
                 if (event.getClick().isLeftClick()){
                     player.sendMessage("Hello");
@@ -99,7 +99,7 @@ public class ExampleMenu extends Menu {
                 player.closeInventory();
             }
 
-        @Override 
+            @Override 
 	    public ItemStack getButtonItem() {
                 ItemStack itemStack = new ItemStack(Material.APPLE);
                 ItemMeta itemMeta = itemStack.getItemMeta();
