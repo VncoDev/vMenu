@@ -15,7 +15,7 @@ import java.util.*;
 @Getter @Setter
 public abstract class Menu {
 
-    private MenuManager menuManager = MenuManager.getInstance();
+    private MenuHandler menuHandler = MenuHandler.getInstance();
 
     private Inventory inventory;
 
@@ -29,6 +29,14 @@ public abstract class Menu {
     private FillType fillType;
 
     /**
+     * Another constructor to make a menu, but without being able to set the type of menu you want (Default Menu).
+     */
+
+    public Menu(String title, int size) {
+        this(title, MenuType.DEFAULT, size);
+    }
+
+    /**
      * Builder to make a menu
      *
      * @param title - The title of the menu to be shown
@@ -39,11 +47,11 @@ public abstract class Menu {
      * @param menuType - The type of menu you want to open
      */
 
-    public Menu(String title, int size, MenuType menuType){
+    public Menu(String title, MenuType menuType, int size) {
         this.title = ChatColor.translateAlternateColorCodes('&', title);
 
         if (this.title.length() > 32){
-            this.title = null;
+            this.title = title.substring(0, 16);
         }
 
         this.menuType = menuType;
@@ -61,36 +69,39 @@ public abstract class Menu {
     }
 
     /**
-     * Another constructor to make a menu, but without being able to set the type of menu you want (Default Menu).
-     */
-
-    public Menu(String title, int size){
-        this(title, size, MenuType.DEFAULT);
-    }
-
-    /**
      * Open the menu to a player
      *
      * @param player - The player to whom the menu will be opened
      */
 
-    public void openMenu(Player player){
-        this.menuManager.addPlayerToMenu(player, this);
+    public void openMenu(Player player) {
+        UUID uuid = player.getUniqueId();
 
-        for (Button button : this.getButtons(player)){
-            this.inventory.setItem(button.getSlot(), button.getButtonItem());
-        }
+        Optional<Menu> optionalMenu = menuHandler.findMenu(uuid);
 
-        if (this.isFillEnabled()){
-            if (this.fillType == null){
-                return;
+        if (optionalMenu.isPresent()) {
+
+            if (optionalMenu.get().equals(this)) {
+                player.closeInventory();
+            } else {
+                menuHandler.unregisterMenu(uuid);
             }
-
-            this.fillType.applyFill(this);
         }
 
-        this.onOpen(player);
-        player.openInventory(this.inventory);
+        for (Button button : getButtons(player)) {
+            inventory.setItem(button.getSlot(), button.getButtonItem());
+        }
+
+        if (isFillEnabled()) {
+            if (fillType != null) {
+                fillType.applyFill(this);
+            }
+        }
+
+        onOpen(player);
+        player.openInventory(inventory);
+
+        menuHandler.registerMenu(uuid, this);
     }
 
     /**
@@ -99,8 +110,7 @@ public abstract class Menu {
      * @param player - The player to whom the contents of the method will be played back
      */
 
-    public void onOpen(Player player){
-    }
+    public void onOpen(Player player) {}
 
     /**
      * When closing the menu, the content of this method will be reproduced.
@@ -108,8 +118,8 @@ public abstract class Menu {
      * @param player - The player to whom the content of the method is to be played back
      */
 
-    public void onClose(Player player){
-        this.menuManager.removePlayerFromMenu(player);
+    public void onClose(Player player) {
+        menuHandler.unregisterMenu(player.getUniqueId());
     }
 
     /**

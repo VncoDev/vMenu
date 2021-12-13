@@ -10,6 +10,11 @@ public abstract class Button {
 
     private int slot;
 
+    /**
+     * This is the main constructor for make a button, for now it will only be to assign the slot
+     *
+     * @param slot - Slot where the button will be assigned
+     */
     public Button(int slot){
         this.slot = slot - 1;
     }

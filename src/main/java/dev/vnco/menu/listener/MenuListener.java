@@ -1,49 +1,53 @@
 package dev.vnco.menu.listener;
 
 import dev.vnco.menu.Menu;
-import dev.vnco.menu.MenuManager;
+import dev.vnco.menu.MenuHandler;
 import dev.vnco.menu.button.Button;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.server.PluginDisableEvent;
 
-import java.util.function.Consumer;
+import java.util.Optional;
 
 @AllArgsConstructor
 public class MenuListener implements Listener {
 
-    private final MenuManager menuManager;
+    private final MenuHandler menuHandler;
 
-    @EventHandler public void onInventoryClick(InventoryClickEvent event){
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        Menu menu = this.menuManager.getMenuByUUID(player.getUniqueId());
-        Consumer<Button> buttonConsumer = b -> b.onClick(event);
+        Optional<Menu> optionalMenu = menuHandler.findMenu(player.getUniqueId());
 
-        if (menu != null){
+        if (!optionalMenu.isPresent()) {
+            return;
+        }
 
-            if (this.menuManager.contains(player)) {
-                event.setCancelled(true);
-            }
-
-            for (Button button : menu.getButtons(player)){
-                if (event.getSlot() == button.getSlot()) {
-                    buttonConsumer.accept(button);
-                }
+        for (Button button : optionalMenu.get().getButtons(player)) {
+            if (event.getSlot() == button.getSlot()) {
+                button.onClick(event);
             }
         }
+
+        event.setCancelled(true);
     }
 
-    @EventHandler public void onInventoryClose(InventoryCloseEvent event){
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
-
-        Menu menu = this.menuManager.getMenuByUUID(player.getUniqueId());
-
-        if (menu != null){
-            menu.onClose(player);
-        }
+        menuHandler.findMenu(player.getUniqueId()).ifPresent(menu -> menu.onClose(player));
     }
 
+    @EventHandler
+    public void onPluginDisable(PluginDisableEvent event) {
+        menuHandler.getMenuRunnable().cancel();
+        menuHandler.getMenuMap().clear();
+
+        HandlerList.unregisterAll(this);
+    }
 }

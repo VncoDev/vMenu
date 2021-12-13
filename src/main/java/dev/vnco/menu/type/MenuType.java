@@ -11,7 +11,8 @@ public enum MenuType {
 
     DEFAULT(null) {
 
-        @Override public Inventory createMenu(Menu menu) {
+        @Override
+        public Inventory createMenu(Menu menu) {
             return Bukkit.createInventory(null, menu.getSize(), menu.getTitle());
         }
 
@@ -31,7 +32,7 @@ public enum MenuType {
      * @param menu - The menu to which the type will be set
      */
 
-    public Inventory createMenu(Menu menu){
+    public Inventory createMenu(Menu menu) {
         return Bukkit.createInventory(null, this.inventoryType, menu.getTitle());
     }
 
