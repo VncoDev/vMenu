@@ -10,8 +10,9 @@ public enum FillType {
         @Override
         public void applyFill(Menu menu) {
             Inventory inventory = menu.getInventory();
-            for (int i = 0; i < menu.getSize(); i++) {
-                if (i < 9 || i >= menu.getSize() - 9 || i % 9 == 0 || i % 9 == 8) {
+            int size = menu.getSize();
+            for (int i = 0; i < size; i++) {
+                if (i < 9 || i >= size - 9 || i % 9 == 0 || i % 9 == 8) {
                     if (inventory.getItem(i) == null) {
                         inventory.setItem(i, menu.getFillItemStack());
                     }

@@ -23,7 +23,7 @@ public abstract class Menu {
     private int size;
     private MenuType menuType;
 
-    private boolean fillEnabled;
+    private boolean cancelClick, fillEnabled;
     private ItemStack fillItemStack;
 
     private FillType fillType;
@@ -60,6 +60,7 @@ public abstract class Menu {
             this.size = size * 9;
         }
 
+        this.cancelClick = true;
         this.fillEnabled = false;
         this.fillItemStack = null;
 
@@ -80,7 +81,6 @@ public abstract class Menu {
         Optional<Menu> optionalMenu = menuHandler.findMenu(uuid);
 
         if (optionalMenu.isPresent()) {
-
             if (optionalMenu.get().equals(this)) {
                 player.closeInventory();
             } else {
@@ -88,8 +88,12 @@ public abstract class Menu {
             }
         }
 
-        for (Button button : getButtons(player)) {
-            inventory.setItem(button.getSlot(), button.getButtonItem());
+        Set<Button> buttons = getButtons(player);
+
+        if (!buttons.isEmpty()) {
+            for (Button button : buttons) {
+                inventory.setItem(button.getSlot(), button.getButtonItem());
+            }
         }
 
         if (isFillEnabled()) {

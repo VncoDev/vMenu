@@ -15,8 +15,8 @@ public class MenuHandler {
 
     @Getter
     private static MenuHandler instance;
-    private final Map<UUID, Menu> menuMap;
 
+    private final Map<UUID, Menu> menuMap;
     private final MenuRunnable menuRunnable;
 
     public MenuHandler(JavaPlugin plugin){

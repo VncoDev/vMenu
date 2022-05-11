@@ -6,6 +6,7 @@ import dev.vnco.menu.button.Button;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -19,7 +20,7 @@ public class MenuListener implements Listener {
 
     private final MenuHandler menuHandler;
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         Optional<Menu> optionalMenu = menuHandler.findMenu(player.getUniqueId());
@@ -28,16 +29,20 @@ public class MenuListener implements Listener {
             return;
         }
 
-        for (Button button : optionalMenu.get().getButtons(player)) {
+        Menu menu = optionalMenu.get();
+
+        for (Button button : menu.getButtons(player)) {
             if (event.getSlot() == button.getSlot()) {
                 button.onClick(event);
             }
         }
 
-        event.setCancelled(true);
+        if (menu.isCancelClick()) {
+            event.setCancelled(true);
+        }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onInventoryClose(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
         menuHandler.findMenu(player.getUniqueId()).ifPresent(menu -> menu.onClose(player));
