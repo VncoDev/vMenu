@@ -4,12 +4,14 @@
 
 ```xml
 
+
 	<repositories>
 		<repository>
 		    <id>jitpack.io</id>
 		    <url>https://jitpack.io</url>
 		</repository>
 	</repositories>
+	
 
 ```
 
@@ -17,11 +19,40 @@
 
 ```xml
 
-	<dependency>
-	    <groupId>com.github.VncoDev</groupId>
-	    <artifactId>vMenu</artifactId>
-	    <version>b1d272d0d1</version>
-	</dependency>
+	<dependencies>
+	    <dependency>
+	        <groupId>com.github.VncoDev</groupId>
+	    	<artifactId>vMenu</artifactId>
+	    	<version>8643c3852f</version>
+	    </dependency>
+	</dependencies>
+
+```
+
+# Gradle
+
+**Repository:**
+
+```gradle
+
+
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+	
+
+```
+
+**Dependency:**
+
+```gradle
+
+	dependencies {
+		implementation 'com.github.VncoDev:vMenu:8643c3852f'
+	}
 
 ```
 
@@ -33,7 +64,8 @@ After implementing the **API** you need to register the **MenuHandler** in the c
 
 public class ExampleJavaPlugin extends JavaPlugin {
 
-    @Override public void onEnable() {
+    @Override 
+    public void onEnable() {
         new MenuHandler(this);
     }
 
@@ -51,13 +83,13 @@ public class ExampleMenu extends Menu {
     }
 
     @Override
-	public Set<Button> getButtons(Player player) {
+    public Set<Button> getButtons(Player player) {
         Set<Button> buttons = new HashSet<>();
 
         buttons.add(new Button(14) {
 
             @Override
-			public void onClick(InventoryClickEvent event) {
+	    public void onClick(InventoryClickEvent event) {
                 if (event.getClick().isLeftClick()){
                     player.sendMessage("Hello");
                 } else {
@@ -68,7 +100,7 @@ public class ExampleMenu extends Menu {
             }
 
             @Override 
-			public ItemStack getButtonItem() {
+	    public ItemStack getButtonItem() {
                 ItemStack itemStack = new ItemStack(Material.APPLE);
                 ItemMeta itemMeta = itemStack.getItemMeta();
 
